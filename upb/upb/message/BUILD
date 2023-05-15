@@ -193,7 +193,7 @@ cc_library(
     deps = [],
 )
 
-# TODO(salo): Move these proto library targets to //third_party/protobuf/BUILD
+# TODO: Move these proto library targets to //third_party/protobuf/BUILD
 # after we have the monorepo.
 proto_library(
     name = "message_test_proto",
