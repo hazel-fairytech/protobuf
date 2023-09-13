@@ -410,10 +410,41 @@ message TestNestedChildExtensionData {
 // Required and closed enum fields are considered unknown fields if the value is
 // not valid. We need to make sure it functions as expected.
 message TestRequiredEnum {
-  // Required closed enum results in missing required fields.
   required ForeignEnum required_enum = 1;
+
   // A dummy optional field.
   optional int32 a = 2;
+}
+
+// TestRequiredEnum + using enum values that won't fit to 64 bitmask.
+message TestRequiredEnumNoMask {
+  enum NestedEnum {
+    NULL = 0;
+    FOO = 2;
+    BAR = 100;
+    BAZ = -1;  // Intentionally negative.
+  }
+
+  required NestedEnum required_enum = 1;
+
+  // A dummy optional field.
+  optional int32 a = 2;
+}
+
+message TestRequiredEnumMulti {
+  enum NestedEnum {
+    NULL = 0;
+    FOO = 1;
+    BAR = 2;
+    BAZ = 100;
+  }
+
+  // Intentionally placed in descending field number to force sorting in closed
+  // enum verification.
+  required NestedEnum required_enum_4 = 4;
+  optional int32 a_3 = 3;
+  required NestedEnum required_enum_2 = 2;
+  required ForeignEnum required_enum_1 = 1;
 }
 
 // We have separate messages for testing required fields because it's
@@ -490,6 +521,8 @@ message TestNestedRequiredForeign {
   optional int32 dummy = 3;
   // optional message to test required closed enum.
   optional TestRequiredEnum required_enum = 5;
+  optional TestRequiredEnumNoMask required_enum_no_mask = 6;
+  optional TestRequiredEnumMulti required_enum_multi = 7;
 }
 
 // Test that we can use NestedMessage from outside TestAllTypes.

@@ -743,6 +743,7 @@ inline bool IsOptimizeForCodeSize(const Descriptor* descriptor) {
   return descriptor->file()->options().optimize_for() == FileOptions::CODE_SIZE;
 }
 
+
 TEST(MESSAGE_TEST_NAME, Swap) {
   UNITTEST::NestedTestAllTypes o;
   constexpr int kDepth = 5;
